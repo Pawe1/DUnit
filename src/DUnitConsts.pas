@@ -34,7 +34,7 @@ resourcestring
 
   sPrintError = 'There was %d error:';
   sPrintErrors = 'There were %d errors:';
-  sFailedTestDetails = '%3d) %s: %s'#13#10'     at %s'#13#10'      "%s"';
+  sFailedTestDetails = '%3d) [%s] %s.%s: %s'#13#10'     at %s'#13#10'      "%s"';
   sPrintFailure = 'There was %d failure:';
   sPrintFailures = 'There were %d failures:';
   sTestResultsOk = 'OK: %d tests';

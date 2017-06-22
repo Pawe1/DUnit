@@ -2,9 +2,9 @@ unit XPDUnitCommon;
 
 {
  $Source: /cvsroot/dunit/dunit/Contrib/DUnitWizard/Source/DelphiExperts/DUnitProject/XPDUnitCommon.pas,v $
- $Revision$
- $Date$
- Last amended by $Author$
+ $Revision: 7 $
+ $Date: 2008-04-24 07:59:47 -0400 (Thu, 24 Apr 2008) $
+ Last amended by $Author: judc $
  $State: Exp $
 
  XPDUnitCommon:
@@ -170,7 +170,7 @@ const CVSID: string = '$Header: /cvsroot/dunit/dunit/Contrib/DUnitWizard/Source/
 function XPDUnitSetupFile: string;
 begin
   // This will live in Delphi's Bin subdirectory
-  // TODO: Problems with this location under Windows XP with non-Administrator
+                                                                              
   // accounts?
   Result := SysUtils.ExtractFilePath(Application.ExeName) + 'dunitwizard.ini';
 end;

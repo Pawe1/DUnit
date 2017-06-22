@@ -1,7 +1,7 @@
-{ $Id$ }
+{ $Id: TestExtensions.pas 41 2011-04-16 01:13:25Z medington $ }
 {: DUnit: An XTreme testing framework for Delphi programs.
    @author  The DUnit Group.
-   @version $Revision$
+   @version $Revision: 41 $
 }
 (*
  * The contents of this file are subject to the Mozilla Public
@@ -33,16 +33,28 @@
  * The DUnit group at SourceForge <http://dunit.sourceforge.net>
  *
  *)
+{$IFDEF ANDROID}
+   {$DEFINE ANDROID_FIXME}
+{$ENDIF}
 
 // memory calculations may produce integer overflows
 {$OVERFLOWCHECKS OFF}
 unit TestExtensions;
 
+{$IF CompilerVersion >= 24.0}
+{$LEGACYIFEND ON}
+{$IFEND}
+
 interface
 
 uses
+{$IFDEF CLR}
   Classes,
   IniFiles,
+{$ELSE !CLR}
+  System.Classes,
+  System.IniFiles,
+{$ENDIF CLR}
   TestFramework,
   DUnitConsts;
 
@@ -211,7 +223,11 @@ uses
   {$IFDEF FASTMM}
      FastMM4,
   {$ENDIF}
+{$IFDEF CLR}
   SysUtils;
+{$ELSE !CLR}
+  System.SysUtils;
+{$ENDIF CLR}
 
 { TTestDecorator }
 
@@ -392,6 +408,9 @@ end;
 
 function TMemoryTest.MemoryAllocated: TMemorySize;
 begin
+{$IFDEF ANDROID_FIXME}
+  Result := 0;
+{$ELSE}
   {$IFDEF FASTMM}
     Result := FastMM4.FastGetHeapStatus.TotalAllocated;
   {$ELSE}
@@ -410,6 +429,7 @@ begin
       Result := GetHeapStatus.TotalAllocated;
     {$ENDIF}
   {$ENDIF}
+{$ENDIF ANDROID_FIXME}
 end;
 
 procedure TMemoryTest.RunTest(ATestResult: TTestResult);
@@ -434,4 +454,8 @@ end;
 {$ENDIF}
 {$ENDIF}
 
+{$IF CompilerVersion >= 24.0}
+{$LEGACYIFEND OFF}
+{$ENDIF}
 end.
+

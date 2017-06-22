@@ -291,7 +291,7 @@ object GUITestRunner: TGUITestRunner
           Left = 2
           Top = 48
           Width = 484
-          Height = 39
+          Height = 45
           Hint = 'Shows statistics about the current/last run'
           Align = alTop
           Columns = <

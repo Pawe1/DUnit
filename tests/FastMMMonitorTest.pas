@@ -1,7 +1,7 @@
-{ $Id$ }
+{ $Id: FastMMMonitorTest.pas 23 2008-08-26 04:42:20Z judc $ }
 {: DUnit: An XTreme testing framework for Delphi programs.
    @author  The DUnit Group.
-   @version $Revision$
+   @version $Revision: 23 $
 }
 (*
  * The contents of this file are subject to the Mozilla Public

@@ -2,9 +2,9 @@ unit XPWinSync;
 
 {
  $Source: /cvsroot/dunit/dunit/Contrib/DUnitWizard/Source/Common/XPWinSync.pas,v $
- $Revision$
- $Date$
- Last amended by $Author$
+ $Revision: 7 $
+ $Date: 2008-04-24 07:59:47 -0400 (Thu, 24 Apr 2008) $
+ Last amended by $Author: judc $
  $State: Exp $
 
  XPWinSync:
@@ -707,7 +707,7 @@ constructor TXPWinSharedCounter.Create(const InitialValue: integer;
     SecurityDescriptor);
   FSync := FMutex as IXPWinSynchro;
   SerialAccess := TXPWinSerialAccess.Create(FSync);
-  // TODO: This call shouldn't be required as we only want to exclude
+                                                                     
   // if mutex created - so we can set init value. However, the EnterOnCreate
   // argument doesn't work in Windows NT SP5 as documented, ie you don't get
   // initial ownership when requested if the mutex is created

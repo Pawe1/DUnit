@@ -1,8 +1,8 @@
 { (Opus) Last modified: 01.12.2000 10:22:16 by peo }
-{ $Id$ }
+{ $Id: EmbeddableGUITestRunner.pas 7 2008-04-24 11:59:47Z judc $ }
 {: DUnit: An XTreme testing framework for Delphi programs.
    @author  The DUnit Group.
-   @version $Revision$
+   @version $Revision: 7 $
 }
 (*
  * The contents of this file are subject to the Mozilla Public

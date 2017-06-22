@@ -1,7 +1,7 @@
-{ $Id$ }
+{ $Id: TextTestRunner.pas 36 2011-04-15 19:26:16Z medington $ }
 {: DUnit: An XTreme testing framework for Delphi programs.
    @author  The DUnit Group.
-   @version $Revision$
+   @version $Revision: 36 $
 }
 (*
  * The contents of this file are subject to the Mozilla Public
@@ -37,12 +37,16 @@ unit TextTestRunner;
 
 interface
 uses
+{$IFDEF CLR}
   Classes,
+{$ELSE !CLR}
+  System.Classes,
+{$ENDIF CLR}
   TestFramework,
   DUnitConsts;
 
 const
-  rcs_id :string = '#(@)$Id$';
+  rcs_id :string = '#(@)$Id: TextTestRunner.pas 36 2011-04-15 19:26:16Z medington $';
 
 type
   TRunnerExitBehavior = (
@@ -53,10 +57,14 @@ type
 
   TTextTestListener = class(TInterfacedObject, ITestListener, ITestListenerX)
   protected
+    FFailureCount,
+    FErrorCount: Integer;
     startTime: TDateTime;
     endTime: TDateTime;
     runTime: TDateTime;
+    IndentLevel: integer;
   public
+    constructor Create;
     // implement the ITestListener interface
     procedure AddSuccess(test: ITest); virtual;
     procedure AddError(error: TTestFailure); virtual;
@@ -74,7 +82,11 @@ type
     class function RunTest(suite: ITest; exitBehavior: TRunnerExitBehavior = rxbContinue): TTestResult; overload;
     class function RunRegisteredTests(exitBehavior: TRunnerExitBehavior = rxbContinue): TTestResult;
 
+    property FailureCount: Integer read FFailureCount;
+    property ErrorCount: Integer read FErrorCount;
+
   protected
+    function  PrefixChars:string;
     function  PrintErrors(r: TTestResult): string; virtual;
     function  PrintFailures(r: TTestResult): string; virtual;
     function  PrintHeader(r: TTestResult): string; virtual;
@@ -101,7 +113,11 @@ function RunRegisteredTests(exitBehavior: TRunnerExitBehavior = rxbContinue): TT
 
 implementation
 uses
+{$IFDEF CLR}
   SysUtils;
+{$ELSE !CLR}
+  System.SysUtils;
+{$ENDIF CLR}
 
 const
   CRLF = #13#10;
@@ -111,16 +127,42 @@ const
 procedure TTextTestListener.AddSuccess(test: ITest);
 begin
 // No display for successes
+  if test is TTestSuite then
+  begin
+    // Do not write anything
+  end
+  else
+    write('.');
+end;
+
+constructor TTextTestListener.Create;
+begin
+  inherited Create;
+  IndentLevel := 0;
 end;
 
 procedure TTextTestListener.AddError(error: TTestFailure);
 begin
-  write('E');
+  Inc(FErrorCount);
+{$IFDEF ADDITIONAL_INFO}
+  Writeln('Error: ',TObject(error).UnitName,'.',TObject(error).ClassName,'.',error.FailedTest.Name);
+{$ELSEIF defined(BASIC_INFO)}
+  Write('<'+error.FailedTest.Name+'> Error');
+{$ELSE !BASIC_INFO}
+  Write('E');
+{$ENDIF ADDITIONAL_INFO}
 end;
 
 procedure TTextTestListener.AddFailure(failure: TTestFailure);
 begin
-  write('F');
+  Inc(FFailureCount);
+{$IFDEF ADDITIONAL_INFO}
+  Writeln('Failure: ',TObject(failure).UnitName,'.',TObject(failure).ClassName,'.',failure.FailedTest.Name);
+{$ELSEIF defined(BASIC_INFO)}
+  Write('<'+failure.FailedTest.Name+'> Fails');
+{$ELSE !BASIC_INFO}
+  Write('F');
+{$ENDIF ADDITIONAL_INFO}
 end;
 
 {:
@@ -161,12 +203,27 @@ begin
     result := result + format(sFailedTestDetails,
                                [
                                i+1,
+{$IFDEF CLR}
+                               '',
+{$ELSE}
+                               TObject(failure.failedTest).UnitName,
+{$ENDIF !CLR}
+                               TObject(failure.failedTest).ClassName,
                                failure.failedTest.name,
                                failure.thrownExceptionName,
                                failure.LocationInfo,
                                failure.thrownExceptionMessage
                                ]) + CRLF;
   end;
+end;
+
+function TTextTestListener.PrefixChars: string;
+var
+  i:integer;
+begin
+  result := '';
+  for i := 1 to IndentLevel do
+    result := result + ' ';
 end;
 
 function TTextTestListener.PrintErrorItems(r :TTestResult): string;
@@ -180,6 +237,12 @@ begin
     result := result + format(sFailedTestDetails,
                                [
                                i+1,
+{$IFDEF CLR}
+                               '',
+{$ELSE}
+                               TObject(failure.failedTest).UnitName,
+{$ENDIF !CLR}
+                               TObject(failure.failedTest).ClassName,
                                failure.failedTest.name,
                                failure.thrownExceptionName,
                                failure.LocationInfo,
@@ -229,7 +292,10 @@ end;
 
 procedure TTextTestListener.StartTest(test: ITest);
 begin
-  write('.');
+{$IFDEF ADDITIONAL_INFO}
+  Writeln;
+  Write(PrefixChars, TObject(test).UnitName,'.',TObject(test).ClassName,'.',test.Name+' ');
+{$ENDIF ADDITIONAL_INFO}
 end;
 
 procedure TTextTestListener.EndTest(test: ITest);
@@ -239,16 +305,24 @@ end;
 
 function TTextTestListener.TruncateString(s: string; len: integer): string;
 begin
-  if Length(s) > len then
-    result := copy(s, 1, len) + '...'
+  if s.Length > len then
+    result := s.Substring( 0, len) + '...'
   else
     result := s
 end;
 
 procedure TTextTestListener.TestingStarts;
 begin
-  writeln;
-  writeln(sDUnitTesting);
+  FFailureCount := 0;
+  FErrorCount := 0;
+{$IFNDEF CLR}
+  Writeln;
+  Writeln('Executing: "'+Paramstr(0)+'"');
+  Writeln('DataFiles: "'+TestDataDir+'"');
+  Writeln('OSVersion: "'+TOSVersion.ToString+'"');
+{$ENDIF CLR}
+  Writeln;
+  Writeln(sDUnitTesting);
   startTime := now;
 end;
 
@@ -337,10 +411,25 @@ end;
 
 procedure TTextTestListener.EndSuite(suite: ITest);
 begin
+  Dec(IndentLevel);
+{$IF defined(ADDITIONAL_INFO)}
+  Writeln;
+  Write(PrefixChars, '> EndSuite('+suite.Name+')');
+{$ELSEIF defined(BASIC_INFO)}
+  Write('> ');
+{$ENDIF ADDITIONAL_INFO}
 end;
 
 procedure TTextTestListener.StartSuite(suite: ITest);
 begin
+{$IF defined(ADDITIONAL_INFO) or defined (BASIC_INFO)}
+  Writeln;
+  if suite is TTestSuite then
+    Write(PrefixChars,'StartSuite('+suite.Name+')('+ IntToStr(suite.CountTestCases) +') <')
+  else
+    Write(PrefixChars, '('+suite.Name+')');
+  Inc(IndentLevel);
+{$ENDIF defined(ADDITIONAL_INFO) or defined (BASIC_INFO)}
 end;
 
 end.

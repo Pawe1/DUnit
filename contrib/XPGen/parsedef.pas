@@ -97,7 +97,7 @@ Programmer  : mike
 
 Date        : 30-Jun-2000
 }
-{ TODO -oMichael Johnons -cOptimization : re-implement this search with either a hash table or a BST at the very least to increase the lookup speed }
+                                                                                                                                                     
 var
   iter: token_enum;
 begin

@@ -314,7 +314,7 @@ begin
         begin
           result := Get_Token(lex);
           case result.token_type of
-            { TODO 5 -oMAJ -cYAGNI : decide if alias derivations (ie. myException = class(exception) ) should be purged and not mentioned in the generated code. }
+                                                                                                                                                                  
             kw_semi: exit;
             else
               result := parse_tobject_derived(result, lex);

@@ -2,9 +2,9 @@ unit XPDUnitTestModuleWizard;
 
 {
  $Source: /cvsroot/dunit/dunit/Contrib/DUnitWizard/Source/DelphiExperts/DUnitProject/XPDUnitTestModuleWizard.pas,v $
- $Revision$
- $Date$
- Last amended by $Author$
+ $Revision: 7 $
+ $Date: 2008-04-24 07:59:47 -0400 (Thu, 24 Apr 2008) $
+ Last amended by $Author: judc $
  $State: Exp $
 
  XPDUnitTestModuleWizard:

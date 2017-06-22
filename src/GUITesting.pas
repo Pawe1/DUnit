@@ -1,7 +1,7 @@
-{ #(@)$Id$ }
+{ #(@)$Id: GUITesting.pas 35 2011-04-15 18:52:09Z medington $ }
 {: DUnit: An XTreme testing framework for Delphi programs.
    @author  The DUnit Group.
-   @version $Revision$ 2001/03/08 uberto
+   @version $Revision: 35 $ 2001/03/08 uberto
 }
 (*
  * The contents of this file are subject to the Mozilla Public
@@ -60,7 +60,7 @@ uses
   Classes;
 
 const
-  rcs_id: string = '#(@)$Id$';
+  rcs_id: string = '#(@)$Id: GUITesting.pas 35 2011-04-15 18:52:09Z medington $';
 
 {$IFDEF DUNIT_CLX}
 const
@@ -149,7 +149,7 @@ implementation
 
 // assertions are always on so we can check for own consistency
 {$ASSERTIONS ON}
-// need stack frames to use CallerAddr
+// need stack frames to use CallerAddr/ReturnAddress
 {$STACKFRAMES ON}
 
 { TGUITestCase }
@@ -196,7 +196,7 @@ function TGUITestCase.FindControl(Comp: TComponent; const CtlName: string; Addrs
   end;
 begin
   if Addrs = nil then
-    Addrs := CallerAddr;
+    Addrs := ReturnAddress;
 
 
   if Trim(CtlName) = '' then
@@ -317,7 +317,7 @@ end;
 
 procedure TGUITestCase.Click(ControlName: string);
 begin
-  Click(FindControl(ControlName, CallerAddr));
+  Click(FindControl(ControlName, ReturnAddress));
 end;
 
 procedure TGUITestCase.Click(Control: TControl);
@@ -416,7 +416,7 @@ end;
 
 procedure TGUITestCase.EnterKeyInto(ControlName: string; Key: Word; const ShiftState: TShiftState);
 begin
-  EnterKeyInto(FindControl(ControlName, CallerAddr), Key, ShiftState);
+  EnterKeyInto(FindControl(ControlName, ReturnAddress), Key, ShiftState);
 end;
 
 procedure TGUITestCase.EnterKey(Key: Char; const ShiftState: TShiftState);
@@ -441,7 +441,7 @@ end;
 
 procedure TGUITestCase.EnterTextInto(ControlName, Text: string);
 begin
-  EnterTextInto(FindControl(ControlName, CallerAddr), Text);
+  EnterTextInto(FindControl(ControlName, ReturnAddress), Text);
 end;
 
 procedure TGUITestCase.EnterTextInto(Control: TControl; Text: string);
@@ -479,7 +479,7 @@ end;
 
 procedure TGUITestCase.Show(ControlName: string; OnOff: boolean);
 begin
-  Show(FindControl(ControlName, CallerAddr), OnOff);
+  Show(FindControl(ControlName, ReturnAddress), OnOff);
 end;
 
 procedure TGUITestCase.Show(Control: TControl; OnOff: boolean);
@@ -540,7 +540,7 @@ var
   i :Integer;
 begin
   if Addrs = nil then
-    Addrs := CallerAddr;
+    Addrs := ReturnAddress;
 
   if not (Control is TWinControl) then
      Fail(
@@ -571,7 +571,7 @@ begin
   Assert(Control <> nil, 'No control');
 
   if Addrs = nil then
-    Addrs := CallerAddr;
+    Addrs := ReturnAddress;
 
   if not (Control is TWinControl) then
     Fail(
@@ -599,29 +599,29 @@ end;
 
 procedure TGUITestCase.CheckFocused(ControlName: string);
 begin
-  CheckFocused(FindControl(ControlName, CallerAddr), CallerAddr);
+  CheckFocused(FindControl(ControlName, ReturnAddress), ReturnAddress);
 end;
 
 procedure TGUITestCase.CheckTabTo(ControlName: string);
 begin
-  CheckTabTo(FindControl(ControlName, CallerAddr), CallerAddr);
+  CheckTabTo(FindControl(ControlName, ReturnAddress), ReturnAddress);
 end;
 
 procedure TGUITestCase.CheckEnabled(Control: TControl; Addrs :Pointer = nil);
 begin
   if not Control.Enabled then
-    Fail(Format('Expected control %s to be enabled', [Control.Name]), CallerAddr);
+    Fail(Format('Expected control %s to be enabled', [Control.Name]), ReturnAddress);
 end;
 
 procedure TGUITestCase.CheckEnabled(ControlName: string);
 begin
-  CheckEnabled(FindControl(ControlName, CallerAddr), CallerAddr);
+  CheckEnabled(FindControl(ControlName, ReturnAddress), ReturnAddress);
 end;
 
 procedure TGUITestCase.SetFocus(Control: TControl; Addrs: Pointer);
 begin
   if Addrs = nil then
-    Addrs := CallerAddr;
+    Addrs := ReturnAddress;
 
   if not (Control is TWinControl) then
      Fail(
@@ -639,23 +639,23 @@ end;
 
 procedure TGUITestCase.SetFocus(ControlName: string);
 begin
-  SetFocus(FindControl(ControlName, CallerAddr), CallerAddr);
+  SetFocus(FindControl(ControlName, ReturnAddress), ReturnAddress);
 end;
 
 procedure TGUITestCase.CheckVisible(Control: TControl; Addrs: Pointer);
 begin
   if not Control.Visible then
-    Fail(Format('Expected control %s to be visible', [Control.Name]), CallerAddr);
+    Fail(Format('Expected control %s to be visible', [Control.Name]), ReturnAddress);
 end;
 
 procedure TGUITestCase.CheckVisible(ControlName: string);
 begin
-  CheckVisible(FindControl(ControlName, CallerAddr), CallerAddr);
+  CheckVisible(FindControl(ControlName, ReturnAddress), ReturnAddress);
 end;
 
 procedure TGUITestCase.CheckVisible;
 begin
-  CheckVisible(GUI, CallerAddr);
+  CheckVisible(GUI, ReturnAddress);
 end;
 
 end.

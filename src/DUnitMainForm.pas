@@ -1,7 +1,7 @@
-{ $Id$ }
+{ $Id: DUnitMainForm.pas 23 2008-08-26 04:42:20Z judc $ }
 {: DUnit: An XTreme testing framework for Delphi programs.
    @author  The DUnit Group.
-   @version $Revision$ 2001/03/08 uberto
+   @version $Revision: 23 $ 2001/03/08 uberto
 }
 (*
  * The contents of this file are subject to the Mozilla Public
@@ -43,7 +43,7 @@ uses
   ExtCtrls;
 
 const
-  rcs_id :string = '#(@)$Id$';
+  rcs_id :string = '#(@)$Id: DUnitMainForm.pas 23 2008-08-26 04:42:20Z judc $';
 
 type
   TDUnitForm = class(TGUITestRunner)

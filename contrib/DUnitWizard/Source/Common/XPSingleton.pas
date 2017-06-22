@@ -4,9 +4,9 @@ unit XPSingleton;
 
 {
  $Source: /cvsroot/dunit/dunit/Contrib/DUnitWizard/Source/Common/XPSingleton.pas,v $
- $Revision$
- $Date$
- Last amended by $Author$
+ $Revision: 7 $
+ $Date: 2008-04-24 07:59:47 -0400 (Thu, 24 Apr 2008) $
+ Last amended by $Author: judc $
  $State: Exp $
 
  Implementation of thread-safe singleton as a TObject descendant and
@@ -36,8 +36,8 @@ unit XPSingleton;
 
 interface
 
-{ TODO: Long term. May need to investigate better solution than TStringList
-  for registration if performance is an issue. }
+                                                                           
+                                                
 
 uses
   XPSyncRW,             // IXPSyncRW,

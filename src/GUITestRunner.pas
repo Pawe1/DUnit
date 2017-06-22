@@ -1,7 +1,7 @@
-{ $Id$ }
+{ $Id: GUITestRunner.pas 37 2011-04-15 19:43:36Z medington $ }
 {: DUnit: An XTreme testing framework for Delphi programs.
    @author  The DUnit Group.
-   @version $Revision$ 2001/03/08 uberto
+   @version $Revision: 37 $ 2001/03/08 uberto
 }
 (*
  * The contents of this file are subject to the Mozilla Public
@@ -45,7 +45,7 @@ uses
   Math,
   Graphics, Controls, Forms, 
   ComCtrls, ExtCtrls, StdCtrls, ImgList, Buttons, Menus, ActnList,
-  Classes, IniFiles, ToolWin, DUnitConsts;
+  Classes, IniFiles, ToolWin, DUnitConsts, System.Actions;
 
 
 
@@ -464,12 +464,16 @@ type
   TProgressBarCrack = class(TProgressBar);
 
 procedure RunTest(test: ITest);
+var
+  GUI :TGUITestRunner;
 begin
-  with TGUITestRunner.Create(nil) do
+  Application.CreateForm(TGUITestRunner, GUI);
+  with GUI do
   begin
     try
       Suite := test;
-      ShowModal;
+      if Suite <> nil then
+        ShowModal;
     finally
       Free;
     end;
@@ -1200,7 +1204,6 @@ begin
     end
     else
     begin
-      SubItems[0] := '';
       ProgressBar.Max:= 10000;
     end;
     ScoreBar.Max := ProgressBar.Max;
@@ -1232,7 +1235,7 @@ begin
   FTests := TInterfaceList.Create;
   LoadConfiguration;
 
-  TimeSeparator := ':';
+  FormatSettings.TimeSeparator := ':';
   SetUpStateImages;
   SetupCustomShortcuts;
   TestTree.Items.Clear;

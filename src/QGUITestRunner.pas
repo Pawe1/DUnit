@@ -1,7 +1,7 @@
-{ $Id$ }
+{ $Id: QGUITestRunner.pas 7 2008-04-24 11:59:47Z judc $ }
 {: DUnit: An XTreme testing framework for Delphi programs.
   @author  The DUnit Group.
-  @version $Revision$ 2001/03/08 uberto
+  @version $Revision: 7 $ 2001/03/08 uberto
 }
 (*
  * The contents of this file are subject to the Mozilla Public
@@ -341,8 +341,11 @@ end;
 
 { TGUITestRunner }
 class procedure TGUITestRunner.RunTest(test: ITest);
+var
+  GUI :TGUITestRunner;
 begin
-  with TGUITestRunner.Create(nil) do
+  Application.CreateForm(TGUITestRunner, GUI);
+  with GUI do
   begin
    try
     suite := test;

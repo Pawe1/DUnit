@@ -1,7 +1,7 @@
-{ $Id$ }
+{ $Id: TestModules.pas 36 2011-04-15 19:26:16Z medington $ }
 {: DUnit: An XTreme testing framework for Delphi programs.
    @author  The DUnit Group.
-   @version $Revision$ 2001/03/08 uberto
+   @version $Revision: 36 $ 2001/03/08 uberto
 }
 (*
  * The contents of this file are subject to the Mozilla Public
@@ -39,7 +39,7 @@ uses
 
 
 const
-  rcs_id :string = '#(@)$Id$';
+  rcs_id :string = '#(@)$Id: TestModules.pas 36 2011-04-15 19:26:16Z medington $';
 
 type
   TModuleRecord = record
