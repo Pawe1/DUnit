@@ -1,0 +1,12 @@
+{
+  "id": "{C1BFA756-A014-44D1-A90B-DEE609DA7C48}",
+  "name": "DUnit",
+  "picture": "doc\\images\\xtao128_new.png",
+  "license_type": "MPL 1.1",
+  "license_file": "doc\\LICENSE.html",
+  "platforms": "Win32;Win64",
+  "package_compiler_min": 21,
+  "package_compiler_max": 32,
+  "compiler_min": 21,
+  "compiler_max": 32
+}

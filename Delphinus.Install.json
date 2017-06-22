@@ -1,0 +1,41 @@
+{
+  "search_pathes": [{
+    "pathes": "src",
+    "platforms": "Win32;Win64"
+  }],
+  "browsing_pathes": [{
+    "pathes": "src",
+    "platforms": "Win32;Win64"
+  }],
+  "source_folders": [{
+    "folder": "."
+  },
+  {
+    "folder": "Contrib",
+    "recursive": true
+  },
+  {
+    "folder": "doc",
+    "recursive": true
+  },
+  {
+    "folder": "etc",
+    "recursive": true
+  },
+  {
+    "folder": "examples",
+    "recursive": true
+  },
+  {
+    "folder": "helpsrc",
+    "recursive": true
+  },
+  {
+    "folder": "src",
+    "recursive": true
+  },
+  {
+    "folder": "tests",
+    "recursive": true
+  }]
+}
